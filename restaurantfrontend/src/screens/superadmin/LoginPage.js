@@ -1,27 +1,29 @@
-
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import { postData } from '../../services/FetchNodeServices';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
+import Swal from 'sweetalert2';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Numerice infosystem pvt ltd
       </Link>{' '}
       {new Date().getFullYear()}
-      {'.'}
+      {'. '}
     </Typography>
   );
 }
@@ -30,15 +32,35 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+export default function LoginPage () {
+  
+  const [emailid,setEmailId] = useState('')
+  const [password,setPassword] = useState('')
+  var navigate = useNavigate()
+    const handleClick=async()=>{
+    var body={emailid:emailid,password:password}
+    var result = await postData('superadmin/checklogin',body)
+  
+    if(result.status) 
+    {
+      navigate('/dashboard')
+    }
+    else
+    {
+     
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: result.message,
+        position:'top-end',
+            timer:5000,
+            showConfirmButton:false,
+            toast:true
+      });
+    }
+    }
+  
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -46,7 +68,7 @@ export default function SignIn() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 8, 
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -58,7 +80,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box  sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -68,6 +90,7 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(event)=>setEmailId(event.target.value)}
             />
             <TextField
               margin="normal"
@@ -78,32 +101,24 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(event)=>setPassword(event.target.value)}
             />
-/
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+             onClick={handleClick} 
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+            
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
+        
 }

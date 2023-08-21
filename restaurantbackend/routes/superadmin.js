@@ -7,7 +7,7 @@ const upload = require('./multer')
 router.post('/checklogin', function(req, res, next) {
   pool.query('select * from superadmin where emailid=? and password=?',[req.body.emailid,req.body.password],function(error,result){
     if(result.error)
-    {
+    {console.log('error')
         res.status(200).json({status:false,data:[],message:'Server Error...'})
     }
     else
@@ -16,11 +16,11 @@ router.post('/checklogin', function(req, res, next) {
         {
 
        
-        req.status(200).json({status:true,data:result,message:'Login Successful'})
+        res.status(200).json({status:true,data:result,message:'Login Successful'})
         }
         else
         {
-            req.status(200).json({status:true,data:[],message:'Invalid Userid/password'})    
+            res.status(200).json({status:false,data:[],message:'Invalid Userid/password'})    
         }
     }
     

@@ -9,6 +9,7 @@ export const useStyles = makeStyles({
     alignItems:"center",
     justifyContent:"center"
   },
+
   box:{
     width:"60%",
     height:"auto",
