@@ -1,4 +1,4 @@
-export default function Heading(props)
+export default function Heading(pr)
 {
     return(
         <div style= {{ fontFamily:'kanit',
@@ -11,7 +11,7 @@ export default function Heading(props)
         flexDirection: 'row',}}>
             
             <img src='logo.png' width="60" />
-              <div>Restaurant Registration</div>
+              <div>{pr.title}</div>
         </div>
     )
 }

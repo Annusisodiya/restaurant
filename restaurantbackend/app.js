@@ -11,6 +11,9 @@ var statecityRouter = require('./routes/statecity');
 var restaurantRouter = require('./routes/restaurant');
 var categoryRouter = require('./routes/category')
 var superadminRouter = require('./routes/superadmin');
+var fooditemRouter = require('./routes/fooditem');
+var tablebookingRouter = require('./routes/tablebooking')
+var waiterRouter = require('./routes/waiter');
 
 var app = express();
 
@@ -30,6 +33,9 @@ app.use('/statecity',statecityRouter);
 app.use('/restaurant',restaurantRouter);
 app.use('/category',categoryRouter)
 app.use('/superadmin',superadminRouter);
+app.use('/fooditem',fooditemRouter);
+app.use('/tablebooking',tablebookingRouter);
+app.use
 
 
 // catch 404 and forward to error handler

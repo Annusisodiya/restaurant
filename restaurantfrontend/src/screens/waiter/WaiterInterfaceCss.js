@@ -14,7 +14,8 @@ export const useStyles = makeStyles({
     height:"auto",
     borderRadius:10,
     background:"#fff",
-    padding:15
+    padding:15,
+    boxShadow:"0 0 15px #222"
   },
   center:{
     display:"flex",

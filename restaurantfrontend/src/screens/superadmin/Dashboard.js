@@ -1,6 +1,10 @@
 import {useState} from 'react';
-import {Avatar,Paper,Grid,AppBar,Toolbar,Box,Typography} from '@mui/material';
-import { makeStyles } from "@mui/styles";
+import {
+  Avatar,
+  Grid,
+  Box, 
+  AppBar,Toolbar,Paper,Typography
+} from "@mui/material";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -13,81 +17,10 @@ import RestaurantInterface from "../restaurant/RestaurantInterface"
 import DisplayAllRestaurant from "../restaurant/DisplayAllRestaurant"
 import { Route,Routes } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-const useStyles = makeStyles({
-  root: {
-    width: "100vw",
-    height: "100vh",
-    background: "#dfe4ea",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  box: {
-    width: "60%",
-    height: "auto",
-    borderRadius: 10,
-    background: "#fff",
-    padding: 15,
-  },
-  center: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    
-    
-  },
-  leftBarStyle:{
-    padding:5,
-    display: "flex",
-    flexDirection:'column',
-    justifyContent: "center",
-    alignItems: "center",
-    margin:10,
+import { useStyles } from './DashboardCss';
 
 
-  },
-  nameStyle:{
-   fontFamily:'Kanit',
-   fontSize:16,
-   fontWeight:'bold',
-   marginTop:5,
-   marginBottom:2
 
-  },
-  phoneStyle:{
-    fontFamily:'Kanit',
-    fontSize:12,
-    fontWeight:'bold',
-   
-    color:'#636e72'
- 
-   },
-   emailStyle:{
-    fontFamily:'Kanit',
-    fontSize:12,
-    fontWeight:'bold',
-    
-    color:'#636e72'
-   },
-   menuStyle:{
-    fontFamily:'Kanit',
-    fontSize:18,
-    fontWeight:'bold',
-    display:'flex',
-    justifyContent:'left',
-    width:250,
-     
-
-
-   },
-   menuItemStyle:{
-    fontFamily:'Kanit',
-    fontSize:16,
-    fontWeight:'bold',
-    
-   }
-
-});
 export default function Dashboard(props){
    var classes=useStyles()
    var navigate=useNavigate()

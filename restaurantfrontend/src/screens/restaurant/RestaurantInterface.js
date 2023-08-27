@@ -16,9 +16,10 @@ import Swal from "sweetalert2";
 import { serverURL, getData, postData } from "../../services/FetchNodeServices";
 import Heading from "../../components/heading/Heading";
 
+
 const useStyles = makeStyles({
   root: {
-    width: "100vw",
+    width: "80vw",
     height: "100vh",
     background: "#dfe4ea",
     display: "flex",
