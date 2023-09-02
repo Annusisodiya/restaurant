@@ -65,7 +65,7 @@ export default function RestaurantInterface() {
   const generatePassword =()=>
   {
     var pwd=parseInt((Math.random()*8999)+1000)  
-    return pwd
+    return parseInt(pwd)
   }
   const handleError = (error, input, message) => {
     setResError((prevState) => ({

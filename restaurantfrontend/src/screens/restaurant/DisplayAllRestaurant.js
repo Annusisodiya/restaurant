@@ -22,37 +22,38 @@ import Heading from "../../components/heading/Heading";
 
 const useStyles = makeStyles({
   rootdisplay: {
-    width: "100vw",
-    height: "100vh",
-    background: "#dfe4ea",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    width:"auto",
+    height:"120vh",
+    background:"#dfe4ea",
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center"
   },
-  boxdisplay: {
-    width: "80%",
-    height: "auto",
-    borderRadius: 10,
-    background: "#fff",
-    padding: 15,
+  boxdisplay:{
+    width:"92%",
+    height:"auto",
+    borderRadius:10,
+    background:"#fff",
+    padding:15
   },
   root: {
-    background: "#dfe4ea",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    
+    background:"#dfe4ea",
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center"
   },
-  box: {
-    height: "auto",
-    borderRadius: 10,
-    background: "#fff",
-    padding: 15,
+  box:{
+    height:"auto",
+    borderRadius:10,
+    background:"#fff",
+    padding:15
   },
-  center: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  center:{
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center"
+  }
 });
 export default function DisplayAllRestaurant() {
   var classes = useStyles();

@@ -1,3 +1,4 @@
+import logo from '../../assets/logo.png';
 export default function Heading(pr)
 {
     return(
@@ -10,7 +11,7 @@ export default function Heading(pr)
         alignItems: 'center',
         flexDirection: 'row',}}>
             
-            <img src='logo.png' width="60" />
+            <img src={logo} width="60" />
               <div>{pr.title}</div>
         </div>
     )

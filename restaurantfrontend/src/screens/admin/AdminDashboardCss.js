@@ -52,7 +52,7 @@ export const useStyles = makeStyles({
     fontWeight:'bold',
     color:'#636e72'
    },
- 
+
    menuStyle:{
     marginInline:'2px',
    },

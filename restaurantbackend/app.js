@@ -14,6 +14,8 @@ var superadminRouter = require('./routes/superadmin');
 var fooditemRouter = require('./routes/fooditem');
 var tablebookingRouter = require('./routes/tablebooking')
 var waiterRouter = require('./routes/waiter');
+var waitertableRouter = require('./routes/waitertable');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 
@@ -35,7 +37,9 @@ app.use('/category',categoryRouter)
 app.use('/superadmin',superadminRouter);
 app.use('/fooditem',fooditemRouter);
 app.use('/tablebooking',tablebookingRouter);
-app.use
+app.use('/waiter',waiterRouter);
+app.use('/waitertable',waitertableRouter);
+app.use('/admin',adminRouter);
 
 
 // catch 404 and forward to error handler

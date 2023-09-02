@@ -1,29 +1,28 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import { postData } from '../../services/FetchNodeServices';
+
 import Link from '@mui/material/Link';
-import Swal from 'sweetalert2';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-
-
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Numerice infosystem pvt ltd
+      <Link color="inherit" href="https://numericinfosystem.com/">
+        Numeric Infosystems Pvt Ltd
       </Link>{' '}
       {new Date().getFullYear()}
-      {'. '}
+      {'.'}
     </Typography>
   );
 }
@@ -32,35 +31,32 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function LoginPage () {
-  
-  const [emailid,setEmailId] = useState('')
-  const [password,setPassword] = useState('')
-  var navigate = useNavigate()
-    const handleClick=async()=>{
-    var body={emailid:emailid,password:password}
-    var result = await postData('superadmin/checklogin',body)
-  
-    if(result.status) 
-    {localStorage.setItem('SUPER',JSON.stringify(result.data))
-      navigate('/dashboard')
+export default function AdminLogin() {
+  const [emailId,setEmailId]=useState("");
+  const [password,setPassword]=useState("");
+  const navigate=useNavigate();
+
+  const handleClick=async()=>{
+    const body={'emailid':emailId,    
+            'password':password}
+    const result=await postData('admin/checklogin',body);
+    
+    if(result.status)
+    {
+        navigate('/admindashboard') 
     }
     else
     {
-     
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
+        icon: 'error',
+        title: 'Oops...',
         text: result.message,
-        position:'top-end',
-            timer:5000,
-            showConfirmButton:false,
-            toast:true
-      });
+        timer: 1500,
+        showConfirmButton: false,
+        // toast:true
+      })
     }
-    }
-  
-  
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -68,7 +64,7 @@ export default function LoginPage () {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8, 
+            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -103,22 +99,18 @@ export default function LoginPage () {
               autoComplete="current-password"
               onChange={(event)=>setPassword(event.target.value)}
             />
-
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-             onClick={handleClick} 
+              onClick={handleClick}
             >
               Sign In
             </Button>
-            
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
-  );
-        
-}
+  )}

@@ -16,7 +16,7 @@ router.post('/checklogin', function(req, res, next) {
         {
 
        
-        res.status(200).json({status:true,data:result,message:'Login Successful'})
+        res.status(200).json({status:true,data:result[0],message:'Login Successful'})
         }
         else
         {
