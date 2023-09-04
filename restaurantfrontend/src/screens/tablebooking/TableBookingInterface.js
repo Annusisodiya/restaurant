@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useEffect, useState} from "react";
 import Heading from "../../components/heading/Heading";
 import { Grid,Button, TextField, FormControl, InputLabel, Select, MenuItem,FormHelperText} from "@mui/material";
 import {useStyles} from "./TableBookingInterfaceCss";
@@ -9,7 +9,7 @@ import { postData } from "../../services/FetchNodeServices";
 
 export default function TableBookingInterface(){
     const classes= useStyles()
-
+    const admin = JSON.parse(localStorage.getItem('ADMIN'))
 
 
     const [restaurantId,setRestaurantId]=useState("");
@@ -18,6 +18,10 @@ export default function TableBookingInterface(){
     const [noOfChairs,setNoOfChairs]=useState("");
     const [resError,setResError]=useState({});
     
+     useEffect(function(){
+      setRestaurantId(admin.restaurantid)
+     },[])
+     
     const handleError = (error,input,message)=>{
       setResError(prevState => ({...prevState,[input]:{'error':error,'message':message}}));
     }
@@ -25,7 +29,7 @@ export default function TableBookingInterface(){
     function validation(){
       let submitRecord=true;
   
-      if(restaurantId.trim().length===0)
+      if(restaurantId.length===0)
       {
         handleError(true,'restaurantId',"please Input Restaurant Id")
         submitRecord=false
@@ -87,15 +91,13 @@ export default function TableBookingInterface(){
                 <Grid container spacing={2}>
                     
                     <Grid item xs={12}>
-                        <Heading title="Register Table"/>
+                        <Heading title="Register Table" myroute={'/admindashboard/displayalltable'}/>
                         </Grid>
 
                         <Grid item xs={6}>
                             <TextField label="Restaurant Id" fullWidth
-                             onFocus={()=>handleError(false,'restaurantId','')}
-                             error={resError?.restaurantId?.error}
-                             helperText={resError?.restaurantId?.message} 
-                             onChange={(event)=>setRestaurantId(event.target.value)} />
+                            value={restaurantId}
+                            disabled />
                             </Grid>
 
                             <Grid item xs={6}>

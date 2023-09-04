@@ -3,51 +3,6 @@ var router = express.Router();
 var pool=require('./pool');
 
 
-
-router.get('/fetch_all_waiter', function(req, res, next) {
-  try{
-  pool.query("select * from waiters",function(error,result){
-        if(error)
-        {
-          console.log(error);
-          res.status(200).json({message:'Database Error...',data:[],status:false})
-        }
-        else
-        {
-          console.log(result);
-          res.status(200).json({status:true,message:'success...',data:result})
-        }
-       })
-     }
-  catch(e)
-  {
-    console.log(e);
-    res.status(200).json({message:'Server Error...',data:[],status:false})
-  }
-});
-
-router.get('/fetch_all_table', function(req, res, next) {
-  try{
-  pool.query("select * from tablebooking",function(error,result){
-        if(error)
-        {
-          console.log(error);
-          res.status(200).json({message:'Database Error...',data:[],status:false})
-        }
-        else
-        {
-          console.log(result);
-          res.status(200).json({status:true,message:'success...',data:result})
-        }
-       })
-     }
-  catch(e)
-  {
-    console.log(e);
-    res.status(200).json({message:'Server Error...',data:[],status:false})
-  }
-});
-
 router.post('/waitertable_submit', function(req, res, next) {
   pool.query("insert into waitertable ( restaurantid, waiterid, tableid, currentdate)values(?,?,?,?)",[ req.body.restaurantid, req.body.waiterid, req.body.tableid, req.body.currentdate],function(error,result){
   if(error)
@@ -66,7 +21,7 @@ router.post('/waitertable_submit', function(req, res, next) {
 
 
   router.get('/fetch_all_waitertable',function(req,res){
-    pool.query('select WT.*,(select W.waitername from waiters W where W.waiterid=WT.waiterid) as waitername, (select T.tableno from tablebooking T where T.tableid=WT.tableid) as tableno from waitertable WT',function(error,result){
+    pool.query('select WT.*,(select W.waitername from waiters W where W.waiterid=WT.waiterid) as waitername, (select T.tableno from tablebooking T where T.tableid=WT.tableid) as tableno,(select T.floor from tablebooking T where T.tableid=WT.tableid) as floor from waitertable WT',function(error,result){
         if(error)
         {
             console.log(error)

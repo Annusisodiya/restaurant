@@ -24,16 +24,19 @@ import DisplayAllWaiterTable from "../waitertable/DisplayAllWaiterTable";
 
 import { Routes,Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { serverURL } from "../../services/FetchNodeServices";
 
 export default function AdminDashboard(props){
   const classes=useStyles();
   const navigate=useNavigate();
+  const admin=JSON.parse(localStorage.getItem('ADMIN'))
+
   return(
     <Box sx={{ flexGrow: 1 }} >
         <AppBar position="sticky"> 
           <Toolbar variant="dense"> 
             <Typography variant="h6" color="inherit" component="div">
-              Admin
+              {admin.restaurantname}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -41,22 +44,15 @@ export default function AdminDashboard(props){
           <Grid item xs={2.2} >
             <Paper >
               <div className={classes.leftBarStyle}>
-                <Avatar src='' variant="circular" style={{width:80,height:80}}/> 
-                <div className={classes.nameStyle}>Peter Kumar</div>
-                <div className={classes.emailStyle}>peterkumar@gmail.com</div>
-                <div className={classes.phoneStyle}>+919301123085</div>
+                <Avatar src={`${serverURL}/images/${admin.filelogo}`} variant="circular" style={{width:80,height:80}}/> 
+                <div className={classes.nameStyle}>{admin.ownername}</div>
+                <div className={classes.emailStyle}>{admin.emailid}</div>
+                <div className={classes.phoneStyle}>+91{admin.mobileno}</div>
               </div>
               <div className={classes.menuStyle}>
                 <List>
                   <Divider />
-                  <ListItem disablePadding>
-                    <ListItemButton onClick={()=>navigate('/admindashboard/categoryinterface')}>
-                      <ListItemIcon>
-                        <InboxIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={<span className={classes.menuItemStyle}>Add New Category</span>} />
-                    </ListItemButton>
-                  </ListItem>
+                  
                   
                   <ListItem disablePadding>
                     <ListItemButton onClick={()=>navigate('/admindashboard/displayallcategory')}>
@@ -67,14 +63,7 @@ export default function AdminDashboard(props){
                     </ListItemButton>
                   </ListItem>
 
-                  <ListItem disablePadding>
-                    <ListItemButton onClick={()=>navigate('/admindashboard/fooditeminterface')}>
-                      <ListItemIcon>
-                        <DraftsIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={<span className={classes.menuItemStyle}>Add New Food Item</span>} />
-                    </ListItemButton>
-                  </ListItem>
+                 
 
                   <ListItem disablePadding>
                     <ListItemButton onClick={()=>navigate('/admindashboard/displayallfooditem')}>
@@ -85,14 +74,7 @@ export default function AdminDashboard(props){
                     </ListItemButton>
                   </ListItem>
 
-                  <ListItem disablePadding>
-                    <ListItemButton onClick={()=>navigate('/admindashboard/tablebookinginterface')}>
-                      <ListItemIcon>
-                        <DraftsIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={<span className={classes.menuItemStyle}>Add New Table</span>} />
-                    </ListItemButton>
-                  </ListItem>
+               
 
                   <ListItem disablePadding>
                     <ListItemButton onClick={()=>navigate('/admindashboard/displayalltable')}>
@@ -103,14 +85,7 @@ export default function AdminDashboard(props){
                     </ListItemButton>
                   </ListItem>
 
-                  <ListItem disablePadding>
-                    <ListItemButton onClick={()=>navigate('/admindashboard/waiterinterface')}>
-                      <ListItemIcon>
-                        <DraftsIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={<span className={classes.menuItemStyle}>Add new Waiter</span>} />
-                    </ListItemButton>
-                  </ListItem>
+                
 
                   <ListItem disablePadding>
                     <ListItemButton onClick={()=>navigate('/admindashboard/displayallwaiter')}>
@@ -121,14 +96,7 @@ export default function AdminDashboard(props){
                     </ListItemButton>
                   </ListItem>
 
-                  <ListItem disablePadding>
-                    <ListItemButton onClick={()=>navigate('/admindashboard/waitertableinterface')}>
-                      <ListItemIcon>
-                        <DraftsIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={<span className={classes.menuItemStyle}>Add new WaiterTable</span>} />
-                    </ListItemButton>
-                  </ListItem>
+                  
 
                   <ListItem disablePadding>
                     <ListItemButton onClick={()=>navigate('/admindashboard/displayallwaitertable')}>

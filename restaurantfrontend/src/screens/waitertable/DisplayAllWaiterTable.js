@@ -1,12 +1,13 @@
 import {useState,useEffect} from 'react'
 import MaterialTable from "@material-table/core"
-import { postData,getData,serverURL } from '../../services/FetchNodeServices';
+import { postData,getData } from '../../services/FetchNodeServices';
 import {Button ,Dialog,DialogActions,DialogContent} from "@mui/material";
 import Heading from '../../components/heading/Heading';
 import { useStyles } from "./DisplayAllWaiterTableCss";
 
-import {Grid,TextField,Select,InputLabel,MenuItem,FormControl,FormHelperText} from '@mui/material';
-import { UploadFile } from "@mui/icons-material";
+import {Grid,TextField,Select,InputLabel,MenuItem,FormControl,
+} from '@mui/material';
+
 import Swal from 'sweetalert2';
 
 import * as React from 'react';
@@ -15,9 +16,12 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useNavigate } from 'react-router-dom';
 
 export default function DisplayAllWaiterTable()
 {  var classes = useStyles();
+  const admin = JSON.parse(localStorage.getItem('ADMIN'))
+  const navigate= useNavigate();
     const [listWaiterTable,setListWaiterTable]=useState([]);
     const [open,setOpen]=useState(false);
     const [waiterTableId,setWaiterTableId]=useState("");
@@ -41,7 +45,7 @@ export default function DisplayAllWaiterTable()
  
    //? Dropdown Filling/////////////////////////////////
    const fetchAllWaiter=async()=>{
-      const result=await getData('waitertable/fetch_all_waiter');
+      const result=await postData('waiter/fetch_all_waiter',{restaurantid:admin.restaurantid});
       setWaiter(result.data);
    }
  
@@ -57,7 +61,7 @@ export default function DisplayAllWaiterTable()
    }
  
    const fetchAllTable=async()=>{
-     const result=await getData('waitertable/fetch_all_table');
+     const result=await postData('tablebooking/fetch_all_table',{restaurantid:admin.restaurantid});
      setTable(result.data);
   }
  
@@ -246,7 +250,7 @@ export default function DisplayAllWaiterTable()
             columns={[
               { title: 'RestaurantId', field: 'restaurantid' },
               { title: 'Waiter Name', field:'waitername'},
-              { title: 'Table No', field:'tableno'},
+              { title: 'Table No',render:(rowData)=><><div>{rowData.tableid}</div><div>{rowData.floor},Table {rowData.tableno}</div></>},
               { title: 'CurrentDate', field:'currentdate'}
         
             ]}
@@ -266,7 +270,7 @@ export default function DisplayAllWaiterTable()
                 icon: 'add',
                 tooltip: 'Add Table',
                 isFreeAction:true,
-                onClick: (event, rowData) => alert("You want to Add WaiterTable" )
+                onClick: (event, rowData) => navigate('/admindashboard/waitertableinterface')
               }
             ]}
           />

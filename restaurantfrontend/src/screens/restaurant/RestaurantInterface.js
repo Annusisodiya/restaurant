@@ -41,6 +41,7 @@ const useStyles = makeStyles({
 });
 export default function RestaurantInterface() {
   var classes = useStyles();
+  
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
 
@@ -61,6 +62,14 @@ export default function RestaurantInterface() {
   const [address, setAddress] = useState("");
   const [resError, setResError] = useState({});
   const [password,setPassword] = useState('')
+  const handleReset=()=>{
+    setRestaurantName('')
+    setOwnerName('')
+    setStateId('-Select State-')
+    setCityId('-Select City-')
+    setAddress()
+    setFileLogo({url: "", bytes:""})
+  }
 
   const generatePassword =()=>
   {
@@ -222,6 +231,7 @@ export default function RestaurantInterface() {
           <Grid item xs={12}>
             <Heading title={"Restaurant Register"} />
           </Grid>
+          
           <Grid item xs={6}>
             <TextField
               onFocus={()=>handleError(false,'restaurantName','')}
@@ -230,6 +240,7 @@ export default function RestaurantInterface() {
               onChange={(event) => setRestaurantName(event.target.value)}
               label="Restaurant Name"
               fullWidth
+              value={restaurantName}
             />
           </Grid>
           <Grid item xs={6}>
@@ -240,6 +251,7 @@ export default function RestaurantInterface() {
               onChange={(event) => setOwnerName(event.target.value)}
               label="Owner Name"
               fullWidth
+              value={ownerName}
             />
           </Grid>
           <Grid item xs={4}>
@@ -447,7 +459,7 @@ export default function RestaurantInterface() {
             </Button>
           </Grid>
           <Grid item xs={6}>
-            <Button variant="contained" fullWidth>
+            <Button onClick={handleReset} variant="contained" fullWidth>
               Reset
             </Button>
           </Grid>

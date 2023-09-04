@@ -1,14 +1,14 @@
 import { useStyles } from "./WaiterTableInterfaceCss";
 import {Grid,TextField,Button,Select,InputLabel,MenuItem,FormControl,Avatar,FormHelperText} from '@mui/material';
 import Heading from "../../components/heading/Heading";
-import { UploadFile } from "@mui/icons-material";
+ 
 
 import {useState,useEffect} from 'react';
-import { postData,getData } from "../../services/FetchNodeServices";
+import { getData,postData} from "../../services/FetchNodeServices";
 import Swal from 'sweetalert2';
 
-import * as React from 'react';
-import dayjs from "dayjs";
+ 
+ 
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -16,10 +16,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function WaiterTableInterface(){
   const classes = useStyles();
-
+  var admin=JSON.parse(localStorage.getItem('ADMIN'))
    ///? useStates///////////////////////////
    const [restaurantId,setRestaurantId]=useState("");
    const [waiter,setWaiter]=useState([]);
+   const [floor,setFloor]=useState([]);
+   const [floorNo,setFloorNo]=useState('');
    const [waiterId,setWaiterId]=useState("");
    const [table,setTable]=useState([]);
    const [tableId,setTableId]=useState("");
@@ -36,13 +38,15 @@ export default function WaiterTableInterface(){
 
   //? Dropdown Filling/////////////////////////////////
   const fetchAllWaiter=async()=>{
-     const result=await getData('waitertable/fetch_all_waiter');
+     const result=await postData('waiter/fetch_all_waiter',{restaurantid:admin.restaurantid});
      setWaiter(result.data);
   }
 
   useEffect(function(){
       fetchAllWaiter();
       fetchAllTable();  
+      fetchAllFloor()
+      setRestaurantId(admin.restaurantid)
   },[]);
 
   const fillWaiter=()=>{
@@ -51,8 +55,14 @@ export default function WaiterTableInterface(){
     });
   }
 
-  const fetchAllTable=async()=>{
-    const result=await getData('waitertable/fetch_all_table');
+  const fetchAllFloor=async()=>{
+    const result=await postData('tablebooking/fetch_all_floor',{restaurantid:admin.restaurantid});
+    setFloor(result.data);
+ }
+
+
+  const fetchAllTable=async(fn)=>{
+    const result=await postData('tablebooking/fetch_all_table_by_floor',{restaurantid:admin.restaurantid,floor:fn});
     setTable(result.data);
  }
 
@@ -61,6 +71,12 @@ export default function WaiterTableInterface(){
      return <MenuItem value={item.tableid}>{item.tableno}</MenuItem>
    });
  }
+ const fillFloor=()=>{
+  return floor.map((item)=>{
+    return <MenuItem value={item.floor}>{item.floor}</MenuItem>
+  });
+}
+
   //?.///////////////////////////////////////////////// ////////////////////
 
   const handleSubmit=async()=>{
@@ -92,7 +108,11 @@ export default function WaiterTableInterface(){
       }
     }    
 }
+const handleFloorChange=(event)=>{
+  setFloorNo(event.target.value)
+  fetchAllTable(event.target.value)
 
+}
 
 
   return(<div className={classes.root}>
@@ -100,14 +120,15 @@ export default function WaiterTableInterface(){
       <Grid container spacing={2}>
 
         <Grid item xs={12}>
-          <Heading title={"Register Food Item"} />
+          <Heading title={"Register Food Item"}  myroute={'/admindashboard/displayallwaitertable'}/>
         </Grid>
         
         <Grid item xs={6}>
            <TextField 
-         
+            disabled
+            value={restaurantId}
            label={"Restaurant Id"} fullWidth 
-           onChange={(event)=>setRestaurantId(event.target.value)}/>
+           />
         </Grid>
 
         <Grid item xs={6}>
@@ -123,6 +144,22 @@ export default function WaiterTableInterface(){
                
            </FormControl>
         </Grid>
+        <Grid item xs={6}>
+           <FormControl fullWidth>
+            <InputLabel>Floor No</InputLabel>
+            <Select label={"Floor no"} 
+             
+               onChange={(event)=>handleFloorChange(event)} 
+              value={floorNo}>
+              <MenuItem>-Select Floor-</MenuItem>
+              {fillFloor()}
+            </Select>
+              
+           </FormControl>
+        </Grid>
+
+
+
 
         <Grid item xs={6}>
            <FormControl fullWidth>

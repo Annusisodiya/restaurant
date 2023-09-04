@@ -26,6 +26,8 @@ import { useStyles } from "../fooditem/FoodItemInterfaceCss"
 export default function FoodItemInterface()
    { 
     const classes = useStyles()
+    const admin = JSON.parse(localStorage.getItem("ADMIN"))
+
 //////////////////////useStates/////////////////////
     const [restaurantId,setRestaurantId]=useState("");
     const [category,setCategory]=useState([]);
@@ -44,7 +46,7 @@ export default function FoodItemInterface()
   
     function validation(){
       let submitRecord=true;
-      if(restaurantId.trim().length===0)
+      if(restaurantId .length===0)
       {
         handleError(true,'restaurantId',"please Input Restaurant Id")
         submitRecord=false
@@ -82,12 +84,13 @@ export default function FoodItemInterface()
   }
 
   const fetchAllCategory=async()=>{
-     const result=await getData('fooditem/fetch_all_category');
-     setCategory(result.data);
+    var result=await postData('category/fetch_all_category',{restaurantid:admin.restaurantid})
+    setCategory(result.data);
   }
 
   useEffect(function(){
-      fetchAllCategory()  
+   fetchAllCategory()
+   setRestaurantId(admin.restaurantid)  
   },[]);
 
   const fillCategory=()=>{
@@ -141,16 +144,15 @@ export default function FoodItemInterface()
                 <Grid container spacing={2}>
 
                 <Grid item xs={12}>
-          <Heading title={"Register Food Item "}/>
+          <Heading title={"Register Food Item "} myroute={'/admindashboard/displayallfooditem'}/>
           </Grid>
 
           <Grid item xs={6}>
           <TextField
-          nFocus={()=>handleError(false,'restaurantId','')}
-          error={resError?.restaurantId?.error}
-          helperText={resError?.restaurantId?.message}
+            value={restaurantId}
+            disabled
            label="Restaurant Id" fullWidth
-           onChange={(event)=>setRestaurantId(event.target.value)}/>
+           />
         </Grid>
 
         <Grid item xs={6}>

@@ -5,7 +5,7 @@ import { postData,getData } from '../../services/FetchNodeServices';
 import {Button ,Dialog,DialogActions,DialogContent} from "@mui/material";
 import Heading from '../../components/heading/Heading';
 
-
+import { useNavigate } from 'react-router-dom';
 import {Grid,TextField,Select,InputLabel,MenuItem,FormControl,FormHelperText} from '@mui/material';
 
 import Swal from 'sweetalert2';
@@ -14,9 +14,11 @@ import Swal from 'sweetalert2';
 
 export default function DisplayAllTable()
 {  var classes = useStyles();
+  const admin= JSON.parse(localStorage.getItem('ADMIN'))
+  const navigate =useNavigate();
     const [listTable,setListTable]=useState([]);
     const [open,setOpen]=useState(false);
-
+     
     //////////////////////?table Data/////////////////
 
     const [restaurantId,setRestaurantId]=useState("");
@@ -102,7 +104,8 @@ export default function DisplayAllTable()
     
 
     const fetchAllTable=async()=>{
-     var result=await getData('tablebooking/fetch_all_table');
+    
+     var result=await postData('tablebooking/fetch_all_table',{restaurantid:admin.restaurantid});
      setListTable(result.data);
 
     }
@@ -259,7 +262,7 @@ export default function DisplayAllTable()
                 icon: 'add',
                 tooltip: 'Add Table',
                 isFreeAction:true,
-                onClick: (event, rowData) => alert("You want to delete " + rowData.name)
+                onClick: (event, rowData) => navigate('/admindashboard/tablebookinginterface')
               }
             ]}
           />

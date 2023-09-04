@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import { postData } from '../../services/FetchNodeServices';
 import { Avatar,Grid,TextField,Button } from "@mui/material"
 import { useStyles } from "./CategoryInterfaceCss";
@@ -8,13 +8,18 @@ import Swal from 'sweetalert2'
 
 export default function CategoryInterface()
 { const classes=useStyles();
-
+  const admin = JSON.parse(localStorage.getItem('ADMIN'))
+  
   ///? useStates///////////////////////////
   const [restaurantId,setRestaurantId]=useState("");
   const [categoryName,setCategoryName]=useState("");
   const [icon,setIcon]=useState({url:'',bytes:''});
   const [categoryError,setCategoryError]=useState({});
-
+  
+  useEffect(function(){
+   setRestaurantId(admin.restaurantid) 
+  },[])
+  
   const handleError=(error,input,message)=>{
     setCategoryError(prevState => ({...prevState, [input]:{'error':error,'message':message}}));
 
@@ -23,7 +28,7 @@ export default function CategoryInterface()
   const validation=()=>
   {  let submitRecord=true
 
-     if(restaurantId.trim().length==0)
+     if(restaurantId.length==0)
      {
       handleError(true,'restaurantId',"Pls Input Restaurant Id"); 
       submitRecord=false;
@@ -89,14 +94,14 @@ export default function CategoryInterface()
     <Grid container spacing={2}>
         
         <Grid item xs={12}>
-          <Heading title={"Register Category"}/>
+          <Heading title={"Register Category"} myroute={'/admindashboard/displayallcategory'}/>
         </Grid>
 
         <Grid item xs={12}>
-          <TextField onChange={(event)=>setRestaurantId(event.target.value)} 
-          onFocus={()=>handleError(false,'restaurantId','')}
-          error={categoryError?.restaurantId?.error}
-          helperText={categoryError?.restaurantId?.message} label="Restaurant Id" fullWidth/>
+          <TextField 
+          value={restaurantId}
+          disabled
+          label="Restaurant Id" fullWidth/>
         </Grid>
 
         <Grid item xs={12}>

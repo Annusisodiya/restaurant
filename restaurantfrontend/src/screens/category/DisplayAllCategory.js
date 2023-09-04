@@ -1,5 +1,4 @@
-//! showdata =>showDataInDialog ///////////
-//? showDataForEdit => showDialogForEdit ////////
+
 
 import { useStyles } from "./DisplayAllCategoryCss";
 import {useState,useEffect} from 'react'
@@ -9,10 +8,11 @@ import { Avatar,Grid,TextField,Button ,Dialog,DialogActions,DialogContent,FormCo
 import Heading from "../../components/heading/Heading";
 import UploadFile from '@mui/icons-material/UploadFile';
 import Swal from 'sweetalert2';
-
+import { useNavigate } from "react-router-dom";
 export default function DisplayAllCategory()
 {  const classes = useStyles();
-
+  const admin= JSON.parse (localStorage.getItem('ADMIN'))
+  const navigate= useNavigate()
   const [listCategory,setListCategory]=useState([]);
   const [open,setOpen]=useState(false)
 
@@ -151,10 +151,10 @@ export default function DisplayAllCategory()
   }
 
   const fetchAllCategory=async()=>{
-   var result=await getData('category/fetch_all_category')
-   setListCategory(result.data)
-
-  };
+    var result=await postData('category/fetch_all_category',{restaurantid:admin.restaurantid})
+    setListCategory(result.data)
+ 
+   };
 
   const handleEdit=(rowData)=>{
     setRestaurantId(rowData.restaurantid);
@@ -250,6 +250,7 @@ export default function DisplayAllCategory()
     )}
 
   useEffect(function(){
+
       fetchAllCategory()
   },[]);
 
@@ -305,7 +306,7 @@ export default function DisplayAllCategory()
             icon: 'add',
             tooltip: 'Add Restaurant',
             isFreeAction: true,
-            onClick: (event, rowData) => alert("You want to delete " + rowData.name)
+            onClick: (event, rowData) => navigate("/admindashboard/categoryinterface")
           ,}
         ]}
       />

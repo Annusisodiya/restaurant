@@ -42,7 +42,7 @@ export default function AdminLogin() {
     const result=await postData('admin/checklogin',body);
     
     if(result.status)
-    {
+    { localStorage.setItem('ADMIN',JSON.stringify(result.data))
         navigate('/admindashboard') 
     }
     else

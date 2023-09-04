@@ -1,6 +1,8 @@
 import logo from '../../assets/logo.png';
-export default function Heading(pr)
-{
+import list from '../../assets/list.png'; 
+import { useNavigate } from 'react-router-dom'; 
+export default function Heading({title,myroute})
+{ const navigate = useNavigate()
     return(
         <div style= {{ fontFamily:'kanit',
         fontWeight:'bold',
@@ -12,7 +14,8 @@ export default function Heading(pr)
         flexDirection: 'row',}}>
             
             <img src={logo} width="60" />
-              <div>{pr.title}</div>
+              <div>{title}</div>
+              <img src={list} width="45" style={{marginLeft:'auto'}} onClick={()=>navigate(`${myroute}`)}/>
         </div>
     )
 }

@@ -12,7 +12,7 @@ import {Grid,TextField,Select,InputLabel,MenuItem,FormControl,FormHelperText,Ava
 import { UploadFile } from "@mui/icons-material";
 import Swal from 'sweetalert2';
 
-
+import { useNavigate } from "react-router-dom";
 import * as React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -29,6 +29,8 @@ import UploadIcon from '@mui/icons-material/Upload';
 
 export default function DisplayAllWaiter()
 {  var classes = useStyles();
+  const admin = JSON.parse(localStorage.getItem('ADMIN'))
+  const navigate =useNavigate();
     const [listWaiter,setListWaiter]=useState([]);
     const [open,setOpen]=useState(false);
 
@@ -197,7 +199,7 @@ export default function DisplayAllWaiter()
 
 
     const fetchAllWaiter=async()=>{
-     var result=await getData('waiter/fetch_all_waiter');
+     var result=await postData('waiter/fetch_all_waiter',{restaurantid:admin.restaurantid});
      setListWaiter(result.data);
 
     }
@@ -385,7 +387,7 @@ export default function DisplayAllWaiter()
     function displayAll() {
         return (
           <MaterialTable
-            title="Table List"
+            title="Waiter List"
             columns={[
               { title: 'Restaurant Id', field: 'restaurantid' },
               { title: 'Waiter Name', field:'waitername'},
@@ -410,7 +412,7 @@ export default function DisplayAllWaiter()
                 icon: 'add',
                 tooltip: 'Add Table',
                 isFreeAction:true,
-                onClick: (event, rowData) => alert("You want to delete " + rowData.name)
+                onClick: (event, rowData) => navigate('/admindashboard/waiterinterface')
               }
             ]}
           />
