@@ -89,5 +89,22 @@ var upload = require('./multer');
           });
   
   
+          router.post('/fetch_all_fooditem_categorywise',function(req,res){
+            pool.query('select F.*, (select C.categoryname from category C where C.categoryid=F.categoryid) as categoryname from fooditems F where restaurantid=? and categoryid=?',[req.body.restaurantid,req.body.categoryid],function(error,result){
+              console.log(req.body)
+                if(error)
+                {
+                    console.log(error)
+                    res.status(200).json({status:false,message:'Database Error',data:[]})
+                
+                }
+                else
+                {  console.log(result)
+                    res.status(200).json({status:true,data:result,message:'Fooditems Get Successfully'})
+                }
+            
+            }) 
+            })
+
   
   module.exports = router;

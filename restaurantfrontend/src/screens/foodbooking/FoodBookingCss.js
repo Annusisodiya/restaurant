@@ -7,7 +7,10 @@ export const useStyles = makeStyles({
     background:"#dfe4ea",
     display:"flex",
     alignItems:"center",
-    justifyContent:"center"
+    justifyContent:"center",
+    flexDirection:'column',
+    padding:10
+    
   },
   box:{
     width:"80%",
@@ -15,8 +18,15 @@ export const useStyles = makeStyles({
     borderRadius:10,
     background:"#fff",
     padding:15,
-    marginBlock:'40px',
-    boxShadow:"0 0 15px #222"
+    marginBottom:10
+  },
+  tablebox:{
+    width:"80%",
+    height:"auto",
+    borderRadius:10,
+    background:"#fff",
+    padding:15,
+   
   },
   center:{
     display:"flex",

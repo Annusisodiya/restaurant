@@ -1,9 +1,9 @@
 import {useEffect,useState} from 'react'
 import { TextField,Grid,Select,InputLabel,MenuItem,FormControl } from '@mui/material'
 import { useStyles } from "./FoodBookingCss";
-import { postData } from '../../services/FetchNodeServices';
+import { getData,postData } from '../../services/FetchNodeServices';
 import TableComponent from '../../components/tablecomponent/TableComponent';
-
+import CategoryComponent from '../../components/categorycomponent/CategoryComponent';
 
 export default function FoodBooking(props)
 { const classes=useStyles();
@@ -62,9 +62,18 @@ export default function FoodBooking(props)
         </Grid>
         
         </div>
+        
         <div className={classes.box}>
+        <Grid container space={1}>
+        <Grid item xs={2}>
+         <CategoryComponent/>   
+        </Grid>    
+        <Grid item xs={10}>
         <TableComponent />
+        </Grid>
+        </Grid>
         </div>
+        
          
     </div>)
 }
