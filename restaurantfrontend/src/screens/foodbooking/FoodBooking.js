@@ -4,13 +4,20 @@ import { useStyles } from "./FoodBookingCss";
 import { getData,postData } from '../../services/FetchNodeServices';
 import TableComponent from '../../components/tablecomponent/TableComponent';
 import CategoryComponent from '../../components/categorycomponent/CategoryComponent';
+import TableCart from '../../components/TableCart/TableCart';
+import { serverURL } from '../../services/FetchNodeServices';
 
 export default function FoodBooking(props)
 { const classes=useStyles();
     var admin=JSON.parse(localStorage.getItem('ADMIN'))
+    
     const [currentDate,setCurrentDate]=useState('') 
     const [waiter,setWaiter]=useState([]);
    const [waiterId,setWaiterId]=useState("");
+   const [waiterName,setWaiterName]=useState("");
+   const [floorNo,setFloorNo]=useState("")
+   const [tableNo,setTableNo]=useState("")
+   const [refresh,setRefresh]=useState(false)
 
     const getCurrentDate=()=>
     {
@@ -40,18 +47,27 @@ export default function FoodBooking(props)
           return <MenuItem value={item.waiterid}>{item.waitername}</MenuItem>
         });
       }
+    const handleWaiter=(event,value)=>{
+       // console.log("VVVVVALLLLUE",value.props.children)
+       setWaiterName(value.props.children)
+        setWaiterId(event.target.value)
+
+
+
+    }  
     return(<div className={classes.root}>
         <div className={classes.box}>
         <Grid container spacing={3}>
-        <Grid item xs={3}>
+            
+        <Grid item xs={4}>
             <TextField label="Current Date"  value={currentDate}/>
             </Grid> 
-            <Grid item xs={3}>
+            <Grid item xs={4}>
            <FormControl fullWidth>
             <InputLabel>Waiter Name</InputLabel>
             <Select label={"Category Name"} 
               
-               onChange={(event)=>setWaiterId(event.target.value)} 
+               onChange={handleWaiter} 
               value={waiterId}>
               <MenuItem>-Select Waiter-</MenuItem>
               {fillWaiter()}
@@ -59,19 +75,29 @@ export default function FoodBooking(props)
                
            </FormControl>
         </Grid>
+        <Grid item xs={4} style={{color:'#273c75', textAlign:'right',fontFamily:'kanit',fontWeight:'bold',fontSize:36}}>
+         {floorNo} {tableNo.length!=0?<>Table {tableNo}</>:<></>}
+        </Grid>
+       
         </Grid>
         
         </div>
         
         <div className={classes.box}>
         <Grid container space={1}>
-        <Grid item xs={2}>
-         <CategoryComponent/>   
+        <Grid item xs={3}>
+         <CategoryComponent tableNo={tableNo} floorNo={floorNo} refresh={refresh} setRefresh={setRefresh} />   
         </Grid>    
-        <Grid item xs={10}>
-        <TableComponent />
+        <Grid item xs={4}>
+        <TableComponent floorNo={floorNo} setFloorNo={setFloorNo} tableNo={tableNo} setTableNo={setTableNo} />
         </Grid>
+        <Grid item xs={5}>
+            <TableCart waiterName={waiterName} tableNo={`#${floorNo}${tableNo}`}  refresh={refresh} setRefresh={setRefresh} />
         </Grid>
+        
+
+        </Grid>
+
         </div>
         
          

@@ -21,6 +21,8 @@ import WaiterInterface from "../waiter/WaiterInterface";
 import DisplayAllWaiter from "../waiter/DisplayAllWaiter";
 import WaiterTableInterface from "../waitertable/WaiterTableInterface";
 import DisplayAllWaiterTable from "../waitertable/DisplayAllWaiterTable";
+import FoodBooking from "../foodbooking/FoodBooking";
+import AllSales from "../allsales/AllSales";
 
 import { Routes,Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -29,8 +31,7 @@ import { serverURL } from "../../services/FetchNodeServices";
 export default function AdminDashboard(props){
   const classes=useStyles();
   const navigate=useNavigate();
-  const admin=JSON.parse(localStorage.getItem('ADMIN'))
-
+  var admin=JSON.parse(localStorage.getItem('ADMIN'))
   return(
     <Box sx={{ flexGrow: 1 }} >
         <AppBar position="sticky"> 
@@ -44,7 +45,7 @@ export default function AdminDashboard(props){
           <Grid item xs={2.2} >
             <Paper >
               <div className={classes.leftBarStyle}>
-                <Avatar src={`${serverURL}/images/${admin.filelogo}`} variant="circular" style={{width:80,height:80}}/> 
+              <img src={`${serverURL}/images/${admin.filelogo}`}  width='100'/>
                 <div className={classes.nameStyle}>{admin.ownername}</div>
                 <div className={classes.emailStyle}>{admin.emailid}</div>
                 <div className={classes.phoneStyle}>+91{admin.mobileno}</div>
@@ -52,7 +53,6 @@ export default function AdminDashboard(props){
               <div className={classes.menuStyle}>
                 <List>
                   <Divider />
-                  
                   
                   <ListItem disablePadding>
                     <ListItemButton onClick={()=>navigate('/admindashboard/displayallcategory')}>
@@ -64,7 +64,6 @@ export default function AdminDashboard(props){
                   </ListItem>
 
                  
-
                   <ListItem disablePadding>
                     <ListItemButton onClick={()=>navigate('/admindashboard/displayallfooditem')}>
                       <ListItemIcon>
@@ -74,8 +73,7 @@ export default function AdminDashboard(props){
                     </ListItemButton>
                   </ListItem>
 
-               
-
+                  
                   <ListItem disablePadding>
                     <ListItemButton onClick={()=>navigate('/admindashboard/displayalltable')}>
                       <ListItemIcon>
@@ -85,8 +83,7 @@ export default function AdminDashboard(props){
                     </ListItemButton>
                   </ListItem>
 
-                
-
+                 
                   <ListItem disablePadding>
                     <ListItemButton onClick={()=>navigate('/admindashboard/displayallwaiter')}>
                       <ListItemIcon>
@@ -97,13 +94,29 @@ export default function AdminDashboard(props){
                   </ListItem>
 
                   
-
                   <ListItem disablePadding>
                     <ListItemButton onClick={()=>navigate('/admindashboard/displayallwaitertable')}>
                       <ListItemIcon>
                         <DraftsIcon />
                       </ListItemIcon>
                       <ListItemText primary={<span className={classes.menuItemStyle}>WaiterTable List</span>} />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton onClick={()=>navigate('/admindashboard/foodbooking')}>
+                      <ListItemIcon>
+                        <DraftsIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={<span className={classes.menuItemStyle}>Billing</span>} />
+                    </ListItemButton>
+                  </ListItem>
+                 
+                  <ListItem disablePadding>
+                    <ListItemButton onClick={()=>navigate('/admindashboard/allsales')}>
+                      <ListItemIcon>
+                        <DraftsIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={<span className={classes.menuItemStyle}>Sales Report</span>} />
                     </ListItemButton>
                   </ListItem>
 
@@ -133,6 +146,8 @@ export default function AdminDashboard(props){
               <Route element={<DisplayAllWaiter/>} path='/displayallwaiter'/>
               <Route element={<WaiterTableInterface/>} path='/waitertableinterface'/>
               <Route element={<DisplayAllWaiterTable/>} path='/displayallwaitertable'/>
+              <Route element={<FoodBooking/>} path='/foodbooking'/>
+              <Route element={<AllSales/>} path='/allsales'/>
             </Routes> 
           </Grid>
         </Grid>

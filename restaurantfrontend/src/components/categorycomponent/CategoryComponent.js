@@ -12,7 +12,8 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import { getData,serverURL,postData } from '../../services/FetchNodeServices';
 import FoodComponent from '../FoodComponent/FoodComponent';
-export default function CategoryComponent() {
+import { Paper } from '@mui/material';
+export default function CategoryComponent(props) {
     const [listCategory,setListCategory]=useState([]);
     const [categoryId,setCategoryId]=useState('');
     const [open,setOpen]=useState(false);
@@ -36,7 +37,7 @@ const  showCategoryList=()=>{
    return listCategory.map((item)=>{
    return( 
     <div>
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper',padding:0 }}>
       <ListItemButton alignItems="flex-start" onClick={()=>handleFoodListDialog(item.categoryid)}>
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src={`${serverURL}/images/${item.icon}`} sx={{width:30,height:30}} />
@@ -46,7 +47,7 @@ const  showCategoryList=()=>{
           
         />
       </ListItemButton>
-      <Divider variant="inset" component="li" />
+      
     </List>
  </div>)
    })
@@ -54,9 +55,9 @@ const  showCategoryList=()=>{
 }
 
   return (
-    <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+    <Paper sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper',boxShadow:'0 0 4px  #222' }}>
       {showCategoryList()}
-      <FoodComponent categoryid={categoryId} setOpen={setOpen} open={open}/>
-    </Box>
+      <FoodComponent categoryid={categoryId} tableNo={props.tableNo} floorNo={props.floorNo} setOpen={setOpen} open={open} refresh={props.refresh} setRefresh={props.setRefresh} />
+    </Paper>
   );
 }
