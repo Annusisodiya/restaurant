@@ -56,7 +56,7 @@ export default  function TableComponent(props)
             return(<Paper onClick={()=>handleTableClick(item)} elevation={3} style={{borderRadius:5,width:80,height:80,display:'flex',justifyContent:'center',alignItems:'center',padding:5,margin:8,background:'#d35400',flexDirection:'column',cursor:'pointer'}}>
                <div style={{fontFamily:'kanit',fontWeight:'bold',fontSize:16,color:'#fff',padding:2}}>Table {item.tableno}</div>
                <div style={{fontFamily:'kanit',fontWeight:'600',fontSize:10,color:'#fff',padding:2}}>Chairs {item.noofchairs}</div>
-               <div style={{fontFamily:'kanit',fontWeight:'bold',fontSize:16,color:'#fff',padding:2}}>&#8377; {0} {calculate(`#${props.floorNo}${item.tableno}`)}
+               <div style={{fontFamily:'kanit',fontWeight:'bold',fontSize:16,color:'#fff',padding:2}}>&#8377;  {calculate(`#${props.floorNo}${item.tableno}`)}
                </div>
       
             </Paper>)

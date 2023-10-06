@@ -58,7 +58,7 @@ export const useStyles = makeStyles({
    },
    menuItemStyle:{
     fontFamily:'Kanit',
-    fontSize:13,
+    fontSize:14,
     fontWeight:'bold'
    }
 });

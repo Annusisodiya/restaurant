@@ -43,6 +43,7 @@ export default function LoginPage () {
   
     if(result.status) 
     {localStorage.setItem('SUPER',JSON.stringify(result.data))
+    localStorage.setItem("TOKEN", result.token);
       navigate('/dashboard')
     }
     else

@@ -81,15 +81,15 @@ export default function FoodComponent(props) {
       return (
         <div>
           <List
-            sx={{ width: "100%", maxWidth: 400, bgcolor: "background.paper" }}
+            sx={{ width: "100%", maxWidth: 400, bgcolor: "background.paper",padding:'0' }}
           >
             <ListItemButton
               onClick={() => handleOrder(item)}
               sx={{
-                height: 30,
+                
                 display: "flex",
                 alignItems: "center",
-                padding: 3,
+                
               }}
               alignItems="flex-start"
             >
@@ -115,7 +115,7 @@ export default function FoodComponent(props) {
               />
             </ListItemButton>
           </List>
-          <Divider />
+        
         </div>
       );
     });

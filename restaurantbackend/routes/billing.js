@@ -32,9 +32,95 @@ router.post("/bill_submit", function (req, res, next) {
   );
 });
 
-router.post('/fetch_total',function(req,res){
+router.post("/fetch_total", function (req, res) {
   console.log(req.body.currentdate);
-  pool.query('select sum(totalamount) as totalbill from billing where billdate between ? and ?',[req.body.fromdate,req.body.tilldate],function(error,result){
+  pool.query(
+    "select round(sum(totalamount),2) as totalbill from billing where billdate between ? and ?",
+    [req.body.fromdate, req.body.tilldate],
+    function (error, result) {
+      if (error) {
+        console.log(error);
+        res
+          .status(200)
+          .json({ status: false, message: "Database Error", data: [] });
+      } else {
+        console.log(result);
+        res
+          .status(200)
+          .json({
+            status: true,
+            data: result[0],
+            message: "bills Get Successfully",
+          });
+      }
+    }
+  );
+});
+
+router.post("/fetch_filtered_bill", function (req, res) {
+  console.log(req.body.tilldate + " " + req.body.fromdate);
+  pool.query(
+    "select * from billing where billdate between ? and ?",
+    [req.body.fromdate, req.body.tilldate],
+    function (error, result) {
+      if (error) {
+        console.log(error);
+        res
+          .status(200)
+          .json({ status: false, message: "Database Error", data: [] });
+      } else {
+        console.log(result);
+        res
+          .status(200)
+          .json({
+            status: true,
+            data: result,
+            message: "bills Get Successfully",
+          });
+      }
+    }
+  );
+});
+
+router.post("/fetch_totalsale_month", function (req, res) {
+  console.log(req.body.currentdate);
+  pool.query(
+    "select month(billdate) as  month, sum(totalamount) as totalbill from billing group by month(billdate) order by billdate",
+    function (error, result) {
+      if (error) {
+        console.log(error);
+        res
+          .status(200)
+          .json({ status: false, message: "Database Error", data: [] });
+      } else {
+        console.log(result);
+        res
+          .status(200)
+          .json({
+            status: true,
+            data: result,
+            message: "bills Get Successfully",
+          });
+      }
+    }
+  );
+});
+
+router.post('/fetch_todays_total',function(req,res){
+  pool.query('select round(sum(totalamount),2) as totalbill from billing where billdate=?',[req.body.todaysdate],function(error,result){
+    if(error){
+      res.status(200).json({status:false,message:'Database Error',data:[]});
+    }
+    else{
+      console.log(result);
+      res.status(200).json({status:true,data:result[0],message:'todays Total get successfully'})
+    }
+  }) 
+})
+
+router.post('/fetch_recent_bill',function(req,res){
+  
+  pool.query('select * from billing order by billno desc limit 5',function(error,result){
       if(error)
       {
           console.log(error)
@@ -42,27 +128,10 @@ router.post('/fetch_total',function(req,res){
       }
       else
       {  console.log(result)
-          res.status(200).json({status:true,data:result[0],message:'bills Get Successfully'});
+          res.status(200).json({status:true,data:result,message:'bills Get Successfully'});
       }
   
   }) 
-  })
-
-  router.post('/fetch_filtered_bill',function(req,res){
-    console.log(req.body.tilldate+" "+req.body.fromdate);
-    pool.query('select * from billing where billdate between ? and ?',[req.body.fromdate,req.body.tilldate],function(error,result){
-        if(error)
-        {
-            console.log(error)
-            res.status(200).json({status:false,message:'Database Error',data:[]});
-        }
-        else
-        {  console.log(result)
-            res.status(200).json({status:true,data:result,message:'bills Get Successfully'});
-        }
-    
-    }) 
-    })
-
+})
 
 module.exports = router;

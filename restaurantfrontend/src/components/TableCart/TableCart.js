@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 
 import { Grid, Divider, Button, TextField } from "@mui/material";
-import { postData } from "../../services/FetchNodeServices";
+import { postData, serverURL } from "../../services/FetchNodeServices";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Plusminus from "../Plusminus/plusminus";
 import Swal from "sweetalert2";
+import { useCallback } from "react";
+import useRazorpay from "react-razorpay";
 export default function TableCart(props) {
   var admin = JSON.parse(localStorage.getItem("ADMIN"));
   const [customername, setCustomerName] = useState();
   const [mobileno, setMobileNo] = useState();
   var gst = parseInt(admin.gsttype) / 2;
   var navigate = useNavigate();
+  const [Razorpay] = useRazorpay();
 
   var dispatch = useDispatch();
   var foodOrder = useSelector((state) => state.orderData);
@@ -35,6 +38,7 @@ export default function TableCart(props) {
   }
 
   var admin = JSON.parse(localStorage.getItem("ADMIN"));
+
   const getCurrentDate = () => {
     var date = new Date();
     var cd =
@@ -46,6 +50,42 @@ export default function TableCart(props) {
     var ct = time.getHours() + ":" + time.getMinutes();
     return ct;
   };
+  ////////////////////Payment API/////////////////////
+
+  const handlePayment = useCallback(
+    async (na) => {
+      const options = {
+        key: "rzp_test_GQ6XaPC6gMPNwH",
+        amount: na * 100,
+        currency: "INR",
+        name: admin.restaurantname,
+        description: "Online Payments",
+        image: `${serverURL}/images/${admin.filelogo}`,
+
+        handler: (res) => {
+          console.log("Payment Details", res);
+        },
+        prefill: {
+          name: customername,
+          email: "youremail@example.com",
+          contact: mobileno,
+        },
+        notes: {
+          address: "Razorpay Corporate Office",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const rzpay = new Razorpay(options);
+      rzpay.open();
+    },
+    [Razorpay]
+  );
+
+  ////////////////////////////////////////////////////////
+
   const handleSave = async () => {
     var body = {
       billtime: getCurrentTime(),
@@ -188,7 +228,7 @@ export default function TableCart(props) {
         <Grid item xs={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <Button
             onClick={handleSave}
             variant="contained"
@@ -196,6 +236,22 @@ export default function TableCart(props) {
             color="primary"
           >
             Save & Print
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Button
+            onClick={() =>
+              handlePayment(
+                totalAmount -
+                  totalOffer +
+                  ((totalAmount - totalOffer) * admin.gsttype) / 100
+              )
+            }
+            variant="contained"
+            style={{ display: "flex", marginLeft: "auto" }}
+            color="primary"
+          >
+            Payment Online
           </Button>
         </Grid>
       </>

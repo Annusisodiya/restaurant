@@ -43,6 +43,7 @@ export default function AdminLogin() {
     
     if(result.status)
     { localStorage.setItem('ADMIN',JSON.stringify(result.data))
+    localStorage.setItem("TOKEN", result.token);
         navigate('/admindashboard') 
     }
     else

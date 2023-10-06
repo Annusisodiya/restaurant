@@ -3,7 +3,12 @@ import axios from "axios"
 var serverURL = 'http://localhost:5000'
 const getData=async(url)=>{
     try{
-        var response = await axios.get(`${serverURL}/${url}`)
+        let headers = {};
+        if (localStorage.getItem("TOKEN")) {
+          headers = { headers: { Authorization: localStorage.getItem("TOKEN") } };
+        }
+
+        var response = await axios.get(`${serverURL}/${url}`,headers)
         var result =await response.data
         return(result)
     }
@@ -15,7 +20,13 @@ const getData=async(url)=>{
 }
 const postData=async(url,body)=>{
     try{
-        var response = await axios.post(`${serverURL}/${url}`,body)
+        
+    let headers = {};
+    if (localStorage.getItem("TOKEN")) {
+      headers = { headers: { Authorization: localStorage.getItem("TOKEN") } };
+    }
+
+        var response = await axios.post(`${serverURL}/${url}`,body,headers)
         var result =await response.data
         return(result)
     }

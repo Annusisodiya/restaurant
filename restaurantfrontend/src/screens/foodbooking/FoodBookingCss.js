@@ -3,30 +3,23 @@ import { makeStyles } from "@mui/styles";
 export const useStyles = makeStyles({
   root: {
     width:"auto",
-    height:"auto",
-    background:"#dfe4ea",
+    height:"100%",
+    background:"#ededed",
     display:"flex",
-    alignItems:"center",
-    justifyContent:"center",
     flexDirection:'column',
-    padding:10
-    
+    alignItems:"center",
+    justifyContent:"flex-start",
+    paddingBlock:'30px',
+    boxSizing:'border-box',
+    gap:"25px"
   },
   box:{
-    width:"80%",
+    width:"90%",
     height:"auto",
     borderRadius:10,
     background:"#fff",
     padding:15,
-    marginBottom:10
-  },
-  tablebox:{
-    width:"80%",
-    height:"auto",
-    borderRadius:10,
-    background:"#fff",
-    padding:15,
-   
+    boxShadow:"0 0 15px #222",
   },
   center:{
     display:"flex",

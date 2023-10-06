@@ -85,10 +85,10 @@ export default function FoodBooking(props)
         
         <div className={classes.box}>
         <Grid container space={1}>
-        <Grid item xs={3}>
+        <Grid item xs={2.2}>
          <CategoryComponent tableNo={tableNo} floorNo={floorNo} refresh={refresh} setRefresh={setRefresh} />   
         </Grid>    
-        <Grid item xs={4}>
+        <Grid item xs={4.8}>
         <TableComponent floorNo={floorNo} setFloorNo={setFloorNo} tableNo={tableNo} setTableNo={setTableNo} />
         </Grid>
         <Grid item xs={5}>

@@ -5,6 +5,7 @@ const useStyles = makeStyles({
 
   plusminuscss:{
                 width:20,
+                height:25,
                 // display:'flex',
                 // justifyContent:"center",
                 // alignItems:'center',
